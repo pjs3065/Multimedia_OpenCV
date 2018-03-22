@@ -1,0 +1,10 @@
+﻿Build started 2018-03-22 오후 6:41:40.
+     1>Project "C:\Users\박재성\documents\visual studio 2012\Projects\multimedia\multimedia\multimedia.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\박재성\documents\visual studio 2012\Projects\multimedia\Debug\multimedia.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\opencv\build\x86\vc12\lib opencv_ts300.lib opencv_world300.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\박재성\documents\visual studio 2012\Projects\multimedia\Debug\multimedia.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\박재성\documents\visual studio 2012\Projects\multimedia\Debug\multimedia.lib" /MACHINE:X86 "Debug\lab2-2.obj"
+         multimedia.vcxproj -> C:\Users\박재성\documents\visual studio 2012\Projects\multimedia\Debug\multimedia.exe
+     1>Done Building Project "C:\Users\박재성\documents\visual studio 2012\Projects\multimedia\multimedia\multimedia.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.44
