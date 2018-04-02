@@ -1,10 +1,11 @@
-﻿Build started 2018-03-22 오후 6:41:40.
-     1>Project "C:\Users\박재성\documents\visual studio 2012\Projects\multimedia\multimedia\multimedia.vcxproj" on node 2 (Build target(s)).
-     1>Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\박재성\documents\visual studio 2012\Projects\multimedia\Debug\multimedia.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\opencv\build\x86\vc12\lib opencv_ts300.lib opencv_world300.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\박재성\documents\visual studio 2012\Projects\multimedia\Debug\multimedia.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\박재성\documents\visual studio 2012\Projects\multimedia\Debug\multimedia.lib" /MACHINE:X86 "Debug\lab2-2.obj"
-         multimedia.vcxproj -> C:\Users\박재성\documents\visual studio 2012\Projects\multimedia\Debug\multimedia.exe
-     1>Done Building Project "C:\Users\박재성\documents\visual studio 2012\Projects\multimedia\multimedia\multimedia.vcxproj" (Build target(s)).
+﻿Build started 2018-04-02 오후 5:01:57.
+     1>Project "C:\Users\JAESEONG\Documents\Visual Studio 2012\Projects\Multimedia_OpenCV\multimedia\multimedia.vcxproj" on node 2 (ClCompile target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /IC:\opencv2.4.9\build\include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt "lab2-2.cpp"
+         lab2-2.cpp
+     1>c:\users\jaeseong\documents\visual studio 2012\projects\multimedia_opencv\multimedia\lab2-2.cpp(1): fatal error C1083: Cannot open include file: 'opencv2/core.hpp': No such file or directory
+     1>Done Building Project "C:\Users\JAESEONG\Documents\Visual Studio 2012\Projects\Multimedia_OpenCV\multimedia\multimedia.vcxproj" (ClCompile target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
-Time Elapsed 00:00:00.44
+Time Elapsed 00:00:00.16
