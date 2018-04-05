@@ -35,7 +35,7 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
-	/// Input value
+	/// n인풋 값 받기
 	std::cout << "Input your n value : "; 
 	std::cin >> n;
 
