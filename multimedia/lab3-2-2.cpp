@@ -1,99 +1,84 @@
-#include <opencv2\core.hpp>
-#include <opencv2\imgcodecs.hpp>
-#include <opencv2\highgui\highgui.hpp>
-
+#include <opencv2/core/core.hpp>
+#include <opencv2/imgcodecs.hpp>
+#include<opencv2/imgproc/imgproc.hpp>
+#include <opencv2/highgui/highgui.hpp>
 #include <iostream>
 #include <string>
+#include<math.h>
+#include<cstdio>
 
 using namespace cv;
 using namespace std;
 
-int main(int argc, char** argv)
-{
-	string imageName("./mrieke.png");
+int main(int argc, char** argv) {
+	//image name
+	string imageName("./marieke.png");
 
-	//마스크 사이즈
-	const int mask_size = 3;
-	float average_factor = 0.11;
-	int n, gausian_factor, pow_gausian_factor;
-	float **mask;
-
-	//이미지 이름 가져오기
-	if (argc > 1)
-	{
+	if (argc > 1) {
 		imageName = argv[1];
 	}
 
-	Mat image, result_image;
+	double  sigma, sum =0.0 , gau;
+	int n;
 
-	//이미지 읽기
+	//input
+	cout << "Input n : ";
+	cin >> n;
+	cout << "Input Sigma : ";
+	cin >> sigma;
+
+	//image value
+	Mat image, image2;
+
+	//open image
 	image = imread(imageName.c_str(), IMREAD_GRAYSCALE);
+	image2 = Mat::zeros(image.size(), image.type());
 
-	//이미지 인풋이 맞는지 확인
-	if (image.empty())
-	{
+	//If image is empty
+	if (image.empty()) {
 		cout << "Could not open or find the image" << std::endl;
 		return -1;
 	}
 
-	/// n인풋 값 받기
-	std::cout << "Input your n value : "; 
-	std::cin >> n;
-	std::cout << "Input your gausian_factor value : "; 
-	std::cin >> gausian_factor;
-
-	pow_gausian_factor = gausian_factor * gausian_factor;
-
-	// 마스크 공간 동적 할당 만들기
-	mask = (float **)malloc(sizeof(float) * n);
-
-	for (int row = 0; row < n; row++)
-	{
-		mask[row] = (float *)malloc(sizeof(float) * n);
-	}
-
-	// 마스크 값 할당하기
-	for(int row = 0; row < n; row++)
-	{
-		for(int col = 0; col <n; col++)
-		{
-			mask[row][col] = (float)(exp(-1 * (row*row + col*col) / 2 * pow_gausian_factor) / (2 * 3.14 * pow_gausian_factor));
-			printf("%f ",mask[row][col]);
+	// Testing Make mask (i = x , j = y) 
+	for (int i = -(n/2); i <= (n/2); i++) {
+		for (int j = -(n/2); j <= (n/2); j++) {
+			gau = exp((-(pow(i, 2) + pow(j, 2))) / (2 * sigma*sigma));
+			printf("%lf\t", gau);
 		}
 		printf("\n");
 	}
 
-	//오리지날 이미지 값 복사 하기
-	result_image = image.clone();
+	//Gaus filter
+	for (int i = 0; i < image.rows; i++) {
+		for (int j = 0; j < image.cols; j++) {
 
-	for (int row = 0; row < image.rows; row++)
-	{
-		for (int col = 0; col < image.cols; col++)
-		{
-			float sum = 0;
+			sum = 0;
 
-			//마스크 만큼 확인하기
-			for (int x = -(n/2); x <= (n/2); x++)
-			{
-				for (int y = -(n/2); y <= (n/2); y++)
-				{
-					if ((col + y >= 0 && col + y < image.cols) && (row + x >= 0 && row + x < image.rows))
+			//mask (above algorithm)
+			for (int k = -(n/2); k <= (n/2); k++) {
+				for (int l = -(n/2); l <= (n/2); l++) {
+
+					int px = i + k;
+					int py = j + l;
+
+					if (!(px < 0 || px >= image.rows || py < 0 || py >= image.cols))
 					{
-						sum += float(image.at<uchar>(row + x, col + y) * mask[x][y]);
+						gau = exp((-(pow(k, 2) + pow(l, 2))) / (2 * sigma*sigma)) / (2 * 3.14 * sigma * sigma);
+						sum += image.at<uchar>(px, py); 
 					}
 				}
 			}
-			result_image.at<uchar>(row, col) = sum / (n*n);
+			image2.at<uchar>(i, j) = sum  * gau;
 		}
 	}
 
-	//창 이름
-	namedWindow("original image", 1);
-	namedWindow("result_image", 1);
-
-	//창 띄우기
+	//window name and open window
+	namedWindow("original image", WINDOW_AUTOSIZE);
 	imshow("original image", image);
-	imshow("result_image", result_image);
+
+	namedWindow("gau image", WINDOW_AUTOSIZE);
+	imshow("gau image", image2);
 
 	waitKey(0);
 	return 0;
