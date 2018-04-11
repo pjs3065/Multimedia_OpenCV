@@ -65,11 +65,11 @@ int main(int argc, char** argv) {
 					if (!(px < 0 || px >= image.rows || py < 0 || py >= image.cols))
 					{
 						gau = exp((-(pow(k, 2) + pow(l, 2))) / (2 * sigma*sigma)) / (2 * 3.14 * sigma * sigma);
-						sum += image.at<uchar>(px, py); 
+						sum += image.at<uchar>(px, py) * gau; 
 					}
 				}
 			}
-			image2.at<uchar>(i, j) = sum  * gau;
+			image2.at<uchar>(i, j) = sum;
 		}
 	}
 
