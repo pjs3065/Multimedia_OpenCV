@@ -19,7 +19,7 @@ int main(int argc, char** argv) {
 		imageName = argv[1];
 	}
 
-	double sum1 = 0.0, sum2 = 0.0;
+	double sum1 = 0.0;
 	int n = 3;
 
 	vector<int> gx(9);
