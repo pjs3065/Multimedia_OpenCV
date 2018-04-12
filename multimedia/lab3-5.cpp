@@ -55,8 +55,7 @@ int main(int argc, char** argv) {
 				{
 					if ((col + y >= 0 && col + y < image.cols) && (row + x >= 0 && row + x < image.rows))
 					{
-						gx[(x+1) * 3 + (y + 1)] = image.at<uchar>(row,col);
-						cout << gx[(x+1) * 3 + (y + 1)];
+						gx[(x+1) * 3 + (y + 1)] = image.at<uchar>(row+x,col+y);
 					}
 				}
 			}
