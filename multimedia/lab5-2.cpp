@@ -1,117 +1,87 @@
-#include <opencv2/core/core.hpp>
-#include <opencv2/imgcodecs.hpp>
-#include<opencv2/imgproc/imgproc.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <iostream>
-#include <string>
-#include<math.h>
-#include<cstdio>
-#include<algorithm>
+#include <stdlib.h>
+#include <math.h>
+#include <opencv2\core.hpp>
+#include <opencv2\imgcodecs.hpp>
+#include <opencv2\highgui\highgui.hpp>
+#include <opencv2/opencv.hpp>
 
 using namespace cv;
 using namespace std;
 
-int main(int argc, char** argv) {
+int get_closerX(int scaled_x, float scale, int max_x);
+int get_closerY(int scaled_y, float scale, int max_y);
 
-	//이미지 불러오기
-	string imageName1("./marieke.png");
-	
-	if (argc > 1) {
-		imageName1 = argv[1];
+int main(int argc, char** argv)
+
+{
+
+	string imageName("./Lena_color.png");
+	float scale;
+
+	printf("Please type scale factor\n");
+	scanf("%f", &scale);
+
+	if (scale <= 0)
+		return 0;
+
+	if (argc > 1)
+	{
+		imageName = argv[1];
 	}
 
-	//이미지 값
-	Mat image1 = imread(imageName1.c_str(), IMREAD_COLOR);
+	Mat input_image, scaled_image;
+	input_image = imread(imageName.c_str(), IMREAD_COLOR);
 
-	//If image is empty
-	if (image1.empty()) {
+	if (input_image.empty())
+	{
 		cout << "Could not open or find the image" << std::endl;
 		return -1;
 	}
 
+	int col_max = input_image.cols, row_max = input_image.rows;
+	int scaled_col = (int)(col_max * scale), scaled_row = (int)(row_max * scale);
+	scaled_image = Mat::zeros(scaled_row, scaled_col, input_image.type());
 
-	for (int row = 0; row < image1.rows; row++)
+	for (int row = 0; row < scaled_row; row++)
 	{
-		for (int col = 0; col <image1.cols; col++)
+		int closer_y = get_closerY(row, scale, row_max);
+		for (int col = 0; col < scaled_col; col++)
 		{
-
-			int cr = saturate_cast<uchar>(ycbcr_image.at<Vec3b>(row,col)[1]);
-			int cb = saturate_cast<uchar>(ycbcr_image.at<Vec3b>(row,col)[2]);
-
+			int closer_x = get_closerX(col, scale, col_max);
+			scaled_image.at<Vec3b>(row, col) = input_image.at<Vec3b>(closer_y, closer_x);
 		}
 	}
 
-	//Cb cr key 구하기
-	int cr_key = -1;
-	int cb_key = -1;
+	namedWindow("original", WINDOW_AUTOSIZE);
+	imshow("original", input_image);
 
-	for(int i = 0; i < 256; i++)
-	{
+	namedWindow("scaled", WINDOW_AUTOSIZE);
+	imshow("scaled", scaled_image);
+	imwrite("result.bmp", scaled_image);
 
-		if(fre_cr[i] > cr_key)
-		{
-			cr_key = i;
-		}
-
-		if(fre_cb[i] > cb_key)
-		{
-			cb_key = i;
-		}
-	}
-
-	printf("%d %d", cr_key, cb_key);
-
-	Mat chroma_image = Mat::zeros(image1.size(),image1.type());
-
-	//스레쉬 홀드
-	int inner = 25;
-	int outer = 46;
-
-	for (int row = 0; row < image1row; row++)
-	{
-		for (int col = 0; col < image1col; col++)
-		{
-			int x2 = saturate_cast<uchar>(ycbcr_image.at<Vec3b>(row,col)[1]);
-			int y2 = saturate_cast<uchar>(ycbcr_image.at<Vec3b>(row,col)[2]);
-
-			//거리 구하고
-			int dis = sqrt(pow(cr_key - x2, 2) + pow(cb_key - y2,2));
-
-			float a = 0.0;
-
-			//거리 조건
-			if(dis < inner)
-			{
-				a = 0;
-			}
-
-			else if(dis > outer)
-			{
-				a = 1;
-			}
-
-			else
-			{
-				a = (dis - inner)/(outer - inner);
-			}
-
-			//크로마키 공식
-			chroma_image.at<Vec3b>(row,col) = (image1.at<Vec3b>(row,col) * (1-a)) + (image2.at<Vec3b>(row,col) * a);
-		}
-	}
-
-	//window name and open window
-	namedWindow("front image", WINDOW_AUTOSIZE);
-	imshow("front image", image1);
-
-	//window name and open window
-	namedWindow("background image", WINDOW_AUTOSIZE);
-	imshow("background image", image2);
-
-	namedWindow("chroma_image", WINDOW_AUTOSIZE);
-	imshow("chroma_image", chroma_image);
 	waitKey(0);
-	//imwrite("./chroma_image.jpg",chroma_image);
 
 	return 0;
+}
+
+
+
+int get_closerX(int scaled_x, float scale, int max_x)
+
+{
+	int closer_x = scaled_x / scale;  // 항상 내린 값 얻음.
+	if (closer_x + 1 == max_x)
+		return closer_x;
+	else
+		return (scaled_x - closer_x * scale <= (closer_x + 1) * scale - scaled_x) ? closer_x : closer_x + 1;
+
+}
+
+int get_closerY(int scaled_y, float scale, int max_y)
+{
+	int closer_y = scaled_y / scale;  // 항상 내린 값 얻음.
+	if (closer_y + 1 == max_y)
+		return closer_y;
+	else
+		return (scaled_y - closer_y * scale <= (closer_y + 1) * scale - scaled_y) ? closer_y: closer_y + 1;
 }

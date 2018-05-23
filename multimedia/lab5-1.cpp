@@ -135,10 +135,10 @@ int main(int argc, char** argv) {
 
 	namedWindow("chroma_image", WINDOW_AUTOSIZE);
 	imshow("chroma_image", chroma_image);
-	waitKey(0);
-	//imwrite("./chroma_image.jpg",chroma_image);
+	imwrite("chroma_image.bmp",chroma_image);
 
-	cv::imwrite("./result.png",chroma_image);
+	waitKey(0);
+	
 
 	return 0;
 }
