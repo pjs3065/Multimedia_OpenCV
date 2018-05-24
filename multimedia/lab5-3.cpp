@@ -46,7 +46,7 @@ int main(int argc, char** argv)
 	int scaled_col = (int)(col_max * scale);
 	int scaled_row = (int)(row_max * scale);
 
-	//스케일된 이미지 만들기
+	//스케일된 이미지  만들기
 	scaled_image = Mat::zeros(scaled_row, scaled_col, input_image.type());
 
 	//1step
